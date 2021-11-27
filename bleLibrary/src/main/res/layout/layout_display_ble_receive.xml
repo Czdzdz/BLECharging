@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/view_bottom_dialog_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_bottom_dialog"
+        android:orientation="vertical"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_waiting_receive"
+            android:textColor="@color/teal_700" />
+
+        <TextView
+            android:id="@+id/tvDisplayReceiveData"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_edit_text"
+            android:paddingStart="25dp"
+            android:scrollbars="vertical"
+            android:textColor="@color/purple_700"
+            android:textSize="16sp"
+            tools:text="12 12 12" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ImageView
+        android:id="@+id/iv_bottom_dialog_close"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="25dp"
+        android:src="@drawable/ic_dialog_close"
+        app:layout_constraintEnd_toEndOf="@id/view_bottom_dialog_container"
+        app:layout_constraintTop_toTopOf="@id/view_bottom_dialog_container" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

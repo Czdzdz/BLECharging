@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/mEdtSimulated"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edit_text"
+            android:hint="@string/string_simulated"
+            android:includeFontPadding="false"
+            android:minHeight="60dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:singleLine="true"
+            android:textColor="@color/purple_700"
+            android:textColorHint="@color/purple_200" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_button"
+            android:gravity="center_horizontal"
+            android:onClick="viewBleSimulated"
+            android:padding="15dp"
+            android:text="@string/string_ble_simulated"
+            android:textColor="@color/white"
+            tools:ignore="UsingOnClickInXml" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_button"
+            android:gravity="center_horizontal"
+            android:onClick="viewDirectConnect"
+            android:padding="15dp"
+            android:text="@string/string_ble_direct_connect"
+            android:textColor="@color/white"
+            tools:ignore="UsingOnClickInXml" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_button"
+            android:gravity="center_horizontal"
+            android:onClick="viewDisconnect"
+            android:padding="15dp"
+            android:text="@string/string_ble_disconnect"
+            android:textColor="@color/white"
+            tools:ignore="UsingOnClickInXml" />
+
+        <TextView
+            android:id="@+id/tvNotifyEnable"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_button"
+            android:gravity="center_horizontal"
+            android:onClick="viewBleNotifyEnable"
+            android:padding="15dp"
+            android:text="@string/string_ble_notify_enable_false"
+            android:textColor="@color/white"
+            tools:ignore="UsingOnClickInXml" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_button"
+            android:gravity="center_horizontal"
+            android:onClick="viewDeviceLogin"
+            android:padding="15dp"
+            android:text="@string/string_ble_device_login"
+            android:textColor="@color/white"
+            tools:ignore="UsingOnClickInXml" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_button"
+            android:gravity="center_horizontal"
+            android:onClick="viewStartCharging"
+            android:padding="15dp"
+            android:text="@string/string_ble_start_charging"
+            android:textColor="@color/white"
+            tools:ignore="UsingOnClickInXml" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_button"
+            android:gravity="center_horizontal"
+            android:onClick="viewStopCharging"
+            android:padding="15dp"
+            android:text="@string/string_ble_stop_charging"
+            android:textColor="@color/white"
+            tools:ignore="UsingOnClickInXml" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_button"
+            android:gravity="center_horizontal"
+            android:onClick="viewQueryOrders"
+            android:padding="15dp"
+            android:text="@string/string_ble_query_orders"
+            android:textColor="@color/white"
+            tools:ignore="UsingOnClickInXml" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_button"
+            android:gravity="center_horizontal"
+            android:onClick="viewChargingStatus"
+            android:padding="15dp"
+            android:text="@string/string_ble_charging_status"
+            android:textColor="@color/white"
+            tools:ignore="UsingOnClickInXml" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>

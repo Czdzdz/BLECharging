@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="string_ble_direct_connect">连接到指定设备 [HC-08]</string>
+    <string name="string_ble_disconnect">断开连接</string>
+    <string name="string_ble_notify_enable_false">开始通知 [false]</string>
+    <string name="string_ble_notify_enable_true">开始通知 [true]</string>
+    <string name="string_ble_device_login">登录 [0x00]</string>
+    <string name="string_ble_start_charging">启动充电 [0x03]</string>
+    <string name="string_ble_stop_charging">停止充电 [0x05]</string>
+    <string name="string_ble_query_orders">查询历史订单 [0x08]</string>
+    <string name="string_ble_charging_status">充电状态信息 [0xA1]</string>
+
+    <string name="string_simulated">模拟数据</string>
+    <string name="string_ble_simulated">发送测试数据模拟</string>
+    <string name="string_waiting_receive">接收数据中:</string>
+</resources>

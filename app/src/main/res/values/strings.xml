@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BLECharging</string>
+    <string name="string_ble_charging">测试蓝牙充电</string>
+</resources>
