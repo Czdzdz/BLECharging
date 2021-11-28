@@ -53,7 +53,7 @@ class BLEDataPackage {
         return ByteUtils.subBytes(header, 0, header.size)
     }
 
-    private fun calculateCRC16WithHeader(header: ByteArray?, payload: ByteArray?): ByteArray? {
+     fun calculateCRC16WithHeader(header: ByteArray?, payload: ByteArray?): ByteArray? {
         val diagramData = ByteUtils.byteMerger(header, payload)
 
         val crc16Ccitt = CRC16.CRC16_CCITT(diagramData)
