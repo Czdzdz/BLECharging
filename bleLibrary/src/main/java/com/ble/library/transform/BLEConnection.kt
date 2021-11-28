@@ -324,13 +324,39 @@ class BLEConnection {
                 device: BleDevice?,
                 characteristic: BluetoothGattCharacteristic?
             ) {
-                val data = characteristic?.value
+                var data = characteristic?.value
                 // 数据接口外放
+//                data = byteArrayOf(
+//                    0xAB.toByte(),
+//                    0x01,
+//                    0x0c,
+//                    0x00,
+//                    0xd2.toByte(),
+//                    0x02,
+//                    0xa1.toByte(),
+//                    0xe9.toByte(),
+//                    0x9d.toByte(),
+//                    0x68,
+//                    0x91.toByte(),
+//                    0x01,
+//                    0x01,
+//                    0x38,
+//                    0x16,
+//                    0x98.toByte(),
+//                    0x70,
+//                    0xbb.toByte(),
+//                    0x62,
+//                    0x7d,
+//                    0x01
+//                )
                 onNotifyResultCallback(data)
                 BleLog.e(
                     "startNotify",
                     "onChanged = ${device?.bleName}收到硬件数据 >>> ${ByteUtils.toHexString(data)}"
                 )
+
+                // 接收上行payload
+                BLEDispatcher.get().onReceive(data)
             }
         })
     }

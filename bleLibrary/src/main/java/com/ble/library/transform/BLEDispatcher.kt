@@ -20,14 +20,12 @@ class BLEDispatcher {
         }
     }
 
-    private var mDiagramData: ByteArray? = null
-
     /**
      * 发送数据包
      */
     fun sendWithCode(code: Byte, payload: ByteArray) {
         BleLog.e("send", "Bluetooth send package data:${payload}")
-        mDiagramData = BLEDataPackage.get().generateWithCode(code, payload)
+        val mDiagramData = BLEDataPackage.get().generateWithCode(code, payload)
         val bleConnection = BLEConnection.get()
         val peripheral = bleConnection.getConnectedBLEDevice()
         if (peripheral == null || bleConnection.getBLEConnectState(peripheral) == false) {
@@ -49,8 +47,8 @@ class BLEDispatcher {
         }
     }
 
-    fun onReceive() {
-        mDiagramData?.let { data ->
+    fun onReceive(payload: ByteArray?) {
+        payload?.let { data ->
             val magicByte = data[0]
             if (magicByte == "0xAB".toByte()) {
                 if (checkCRC16(data) == false) {
