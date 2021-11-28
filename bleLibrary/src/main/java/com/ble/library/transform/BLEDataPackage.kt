@@ -1,10 +1,11 @@
 package com.ble.library.transform
 
-import com.ble.library.service.DataIterator
+import com.ble.library.utils.ByteUtils
+import com.ble.library.utils.CRC16
 
 class BLEDataPackage {
-    private var sequence_id: Sentinel = Sentinel()
-    var packageSize: Int = 256
+
+    private var sequence_id = 0
 
     companion object {
         private var instance: BLEDataPackage? = null
@@ -20,47 +21,45 @@ class BLEDataPackage {
         }
     }
 
-    fun generate(hexCode: Byte, payload: ByteArray): ArrayList<ByteArray> {
-        val sequenceId = sequence_id.increase()
-        val bleCommonHeader = BLECommonHeader()
-        bleCommonHeader.sequenceId = sequenceId
-        bleCommonHeader.commandId = hexCode
-
-        val result = arrayListOf<ByteArray>()
-        val bleData = BLEData(bleCommonHeader, payload)
-        if (bleData.count <= packageSize) {
-             result.add(bleData.mapData())
-        } else {
-            bleData.headerWithoutCRC.magic = "0xAD"
-            val dataIterator = DataIterator(bleData.mapData(),BLEData.payloadMaxCount)
-            val temp = arrayListOf<ByteArray>()
-            while (!dataIterator.isEnd) {
-                temp.add(dataIterator.dataValue(packageSize))
-            }
-            for ((offset, element) in temp.withIndex()) {
-                val header = BLEUnpackHeader()
-                header.common = bleCommonHeader
-                header.currentIndex = offset + 1
-                header.packCount = temp.size
-                header.common.magic = "0xAC"
-                result.add(BLEData(header, element).mapData())
-            }
-        }
-
-        return result
+    internal fun generateWithCode(hexCode: Byte, payload: ByteArray?): ByteArray? {
+        val headerWithoutCRC16 =
+            generateHeaderWithCode(hexCode, payloadLength = (payload?.size ?: 0))
+        val crc16 = calculateCRC16WithHeader(headerWithoutCRC16, payload = payload)
+        return ByteUtils.byteMergerMore(headerWithoutCRC16, crc16, payload)
     }
-}
 
-class Sentinel {
-    private var _value: Long = 0
 
-    fun increase(): Long {
-        val result = _value++
-        return if (result > 65535) {
-            _value = 0
-            0
-        } else {
-            result
+    private fun generateHeaderWithCode(hexCode: Byte, payloadLength: Int): ByteArray? {
+
+        var header = ByteArray(7)
+        //Magic byte
+        header[0] = 0xAB.toByte()
+        //Version ACK_flag Err_flag Reversed
+        header[1] = 1
+        //Payload length
+        header[2] = (payloadLength - (payloadLength shr 8 shl 8)).toByte()
+        header[3] = (payloadLength shr 8).toByte()
+
+        //Sequence id
+        sequence_id++
+        if (sequence_id > 65535) {
+            sequence_id = 0
         }
+        header[4] = (sequence_id - (sequence_id shr 8 shl 8)).toByte()
+        header[5] = (sequence_id shr 8).toByte()
+
+        //Command_ID
+        header[6] = hexCode
+        return ByteUtils.subBytes(header, 0, header.size)
     }
+
+    private fun calculateCRC16WithHeader(header: ByteArray?, payload: ByteArray?): ByteArray? {
+        val diagramData = ByteUtils.byteMerger(header, payload)
+
+        val crc16Ccitt = CRC16.CRC16_CCITT(diagramData)
+
+        val crc = ByteUtils.intToByte32(crc16Ccitt)
+        return ByteUtils.subBytes(crc, 0, 2)
+    }
+
 }

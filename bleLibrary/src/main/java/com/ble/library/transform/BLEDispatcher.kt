@@ -22,15 +22,13 @@ class BLEDispatcher {
      */
     fun send(code: Byte, payload: ByteArray) {
         BleLog.e("send", "Bluetooth send package data:${payload}")
-        val diagramData = BLEDataPackage.get().generate(code, payload)
+        val diagramData = BLEDataPackage.get().generateWithCode(code, payload)
         val bleConnection = BLEConnection.get()
         val peripheral = bleConnection.getConnectedBLEDevice()
         if (peripheral == null || bleConnection.getBLEConnectState(peripheral) == false) {
             BleLog.e("send", "外设不存在或者外设出于非连接状态")
         } else {
-            for (dataPack in diagramData) {
-                bleConnection.sendDataWithCallback(peripheral, dataPack)
-            }
+            bleConnection.sendDataWithCallback(peripheral, diagramData)
         }
     }
 }
