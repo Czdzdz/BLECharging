@@ -1,5 +1,6 @@
 package com.ble.library.transform
 
+import android.util.Log
 import com.ble.library.utils.ByteUtils
 import com.ble.library.utils.CRC16
 
@@ -24,7 +25,9 @@ class BLEDataPackage {
     internal fun generateWithCode(hexCode: Byte, payload: ByteArray?): ByteArray? {
         val headerWithoutCRC16 =
             generateHeaderWithCode(hexCode, payloadLength = (payload?.size ?: 0))
+        Log.e("fuck", "headerWithoutCRC16:$headerWithoutCRC16")
         val crc16 = calculateCRC16WithHeader(headerWithoutCRC16, payload = payload)
+        Log.e("fuck", "crc16:$crc16")
         return ByteUtils.byteMergerMore(headerWithoutCRC16, crc16, payload)
     }
 
@@ -50,15 +53,19 @@ class BLEDataPackage {
 
         //Command_ID
         header[6] = hexCode
+        Log.e("fuck", "header:$header")
         return ByteUtils.subBytes(header, 0, header.size)
     }
 
     private fun calculateCRC16WithHeader(header: ByteArray?, payload: ByteArray?): ByteArray? {
         val diagramData = ByteUtils.byteMerger(header, payload)
+        Log.e("fuck", "diagramData:$diagramData")
 
         val crc16Ccitt = CRC16.CRC16_CCITT(diagramData)
+        Log.e("fuck", "crc16Ccitt:$crc16Ccitt")
 
         val crc = ByteUtils.intToByte32(crc16Ccitt)
+        Log.e("fuck", "crc:$crc")
         return ByteUtils.subBytes(crc, 0, 2)
     }
 
