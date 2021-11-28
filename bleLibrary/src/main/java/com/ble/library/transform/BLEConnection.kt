@@ -331,6 +331,9 @@ class BLEConnection {
                     "startNotify",
                     "onChanged = ${device?.bleName}收到硬件数据 >>> ${ByteUtils.toHexString(data)}"
                 )
+
+                // 接收上行payload
+                BLEDispatcher.get().onReceive(data)
             }
         })
     }
