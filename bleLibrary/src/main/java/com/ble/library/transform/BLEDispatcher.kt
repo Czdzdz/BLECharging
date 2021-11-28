@@ -50,7 +50,7 @@ class BLEDispatcher {
     fun onReceive(payload: ByteArray?) {
         payload?.let { data ->
             val magicByte = data[0]
-            if (magicByte == "0xAB".toByte()) {
+            if (magicByte == 0xAB.toByte()) {
                 if (checkCRC16(data) == false) {
                     BleLog.e("onReceive", "crc校验不通过")
                 } else {
@@ -70,7 +70,8 @@ class BLEDispatcher {
             val crc16Packet = ByteUtils.subBytes(data, 7, 2)
             val payload = ByteUtils.subBytes(data, 9, data.size - 9)
             val calCrc16 = BLEDataPackage.get().calculateCRC16WithHeader(header, payload)
-            return crc16Packet.contentEquals(calCrc16)
+            val result = crc16Packet[0] == calCrc16[1] && crc16Packet[1] == calCrc16[0]
+            return result
         }
     }
 }

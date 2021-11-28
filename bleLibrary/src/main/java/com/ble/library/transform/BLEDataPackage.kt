@@ -25,14 +25,14 @@ class BLEDataPackage {
     internal fun generateWithCode(hexCode: Byte, payload: ByteArray?): ByteArray? {
         val headerWithoutCRC16 =
             generateHeaderWithCode(hexCode, payloadLength = (payload?.size ?: 0))
-        Log.e("fuck", "headerWithoutCRC16:$headerWithoutCRC16")
+        Log.e("generateWithCode", "headerWithoutCRC16:$headerWithoutCRC16")
         val crc16 = calculateCRC16WithHeader(headerWithoutCRC16, payload = payload)
-        Log.e("fuck", "crc16:$crc16")
+        Log.e("generateWithCode", "crc16:$crc16")
         return ByteUtils.byteMergerMore(headerWithoutCRC16, crc16, payload)
     }
 
 
-    private fun generateHeaderWithCode(hexCode: Byte, payloadLength: Int): ByteArray? {
+    private fun generateHeaderWithCode(hexCode: Byte, payloadLength: Int): ByteArray {
 
         var header = ByteArray(7)
         //Magic byte
@@ -53,20 +53,21 @@ class BLEDataPackage {
 
         //Command_ID
         header[6] = hexCode
-        Log.e("fuck", "header:$header")
+        Log.e("generateHeaderWithCode", "header:$header")
         return ByteUtils.subBytes(header, 0, header.size)
     }
 
-     fun calculateCRC16WithHeader(header: ByteArray?, payload: ByteArray?): ByteArray? {
+     fun calculateCRC16WithHeader(header: ByteArray, payload: ByteArray?): ByteArray {
         val diagramData = ByteUtils.byteMerger(header, payload)
-        Log.e("fuck", "diagramData:$diagramData")
+        Log.e("calculateCRC16", "diagramData:$diagramData")
 
         val crc16Ccitt = CRC16.CRC16_CCITT(diagramData)
-        Log.e("fuck", "crc16Ccitt:$crc16Ccitt")
+        Log.e("calculateCRC16", "crc16Ccitt:$crc16Ccitt")
 
-        val crc = ByteUtils.intToByte32(crc16Ccitt)
-        Log.e("fuck", "crc:$crc")
-        return ByteUtils.subBytes(crc, 0, 2)
+        val crc = ByteUtils.intToByte4(crc16Ccitt)
+        Log.e("calculateCRC16", "crc:$crc")
+         val result = ByteUtils.subBytes(crc, 2, 2)
+        return result
     }
 
 }

@@ -32,7 +32,8 @@ class DataIterator(data: ByteArray, maxSize: Int? = 0) {
             result
         } else {
             offset = data.size
-            ByteUtils.subBytes(data, 0, offset)
+            val result2 = ByteUtils.subBytes(data, 0, offset)
+            result2
         }
     }
 
