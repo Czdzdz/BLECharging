@@ -10,15 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import cn.com.heaton.blelibrary.ble.model.BleDevice
 import cn.com.heaton.blelibrary.ble.utils.ByteUtils
 import com.ble.library.R
-import com.ble.library.service.CMD_END_CHARGE
-import com.ble.library.service.CMD_LOGIN
 import com.ble.library.service.ServiceFactory
 import com.ble.library.service.ext.showToast
-import com.ble.library.service.feature.StartLogin
+import com.ble.library.service.feature.StartChargeData
 import com.ble.library.service.feature.StartLoginData
 import com.ble.library.service.feature.StopChargeData
 import com.ble.library.transform.BLEConnection
-import com.ble.library.transform.BLEDispatcher
 import com.tbruyelle.rxpermissions2.Permission
 import com.tbruyelle.rxpermissions2.RxPermissions
 
@@ -32,6 +29,8 @@ class BLEDirectConnectActivity : AppCompatActivity() {
         val bleConn = BLEConnection.get()
 
         const val targetDeviceName = "HC-08"    //目标设备名称
+        const val orderId: String = "123456789011"  //测试订单号
+
     }
 
     private var bleDevice: BleDevice? = null
@@ -127,15 +126,7 @@ class BLEDirectConnectActivity : AppCompatActivity() {
      */
     fun viewDisconnect(view: View) {
 
-        if (bleDevice == null) {
-            showToast("设备未连接!!!")
-            return
-        }
-
-        if (bleDevice != null && bleDevice?.isDisconnected == true) {
-            showToast("设备已断开!!!")
-            return
-        }
+        if (validateDeviceEnable()) return
 
         bleDevice?.let { device ->
             bleConn.disconnectBLEDevice(
@@ -152,10 +143,7 @@ class BLEDirectConnectActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun viewBleNotifyEnable(view: View) {
 
-        if (bleDevice == null) {
-            showToast("设备未连接!!!")
-            return
-        }
+        if (validateDeviceEnable()) return
 
         val notifyFalse = resources.getString(R.string.string_ble_notify_enable_false)
         val notifyTrue = resources.getString(R.string.string_ble_notify_enable_true)
@@ -233,57 +221,57 @@ class BLEDirectConnectActivity : AppCompatActivity() {
             showToast("设备未连接!!!")
             return
         }
-
-        val startLogin = StartLogin()
-
-        startLogin.jsonToPayload(StartLoginData(CMD_LOGIN, "123456"))
-            ?.let { BLEDispatcher.get().send(CMD_LOGIN, it) }
-
+        ServiceFactory.get().executeDown(StartLoginData(ble_key = "123456"))
     }
 
     /**
      * 开始充电
      */
     fun viewStartCharging(view: View) {
-        if (bleDevice == null) {
-            showToast("设备未连接!!!")
-            return
-        }
+        if (validateDeviceEnable()) return
+        ServiceFactory.get().executeDown(StartChargeData(orderId = orderId))
     }
 
     /**
      * 停止充电
      */
     fun viewStopCharging(view: View) {
-        if (bleDevice == null) {
-            showToast("设备未连接!!!")
-            return
-        }
-        ServiceFactory.get().executeDown(StopChargeData(CMD_END_CHARGE))
+        if (validateDeviceEnable()) return
+        ServiceFactory.get().executeDown(StopChargeData(orderId = orderId))
     }
 
     /**
      * 查询历史订单
      */
     fun viewQueryOrders(view: View) {
-        if (bleDevice == null) {
-            showToast("设备未连接!!!")
-            return
-        }
+        if (validateDeviceEnable()) return
     }
 
     /**
      * 查询充电状态
      */
     fun viewChargingStatus(view: View) {
-        if (bleDevice == null) {
-            showToast("设备未连接!!!")
-            return
-        }
+        if (validateDeviceEnable()) return
     }
 
     override fun onDestroy() {
         super.onDestroy()
         bleConn.destroyConnect()
+    }
+
+    /**
+     * 验证设备可用性
+     */
+    private fun validateDeviceEnable(): Boolean {
+        if (bleDevice == null) {
+            showToast("设备未连接!!!")
+            return true
+        }
+
+        if (bleDevice != null && bleDevice?.isDisconnected == true) {
+            showToast("设备已断开!!!")
+            return true
+        }
+        return false
     }
 }

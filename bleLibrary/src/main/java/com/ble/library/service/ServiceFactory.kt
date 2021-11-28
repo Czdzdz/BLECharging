@@ -61,7 +61,7 @@ class ServiceFactory private constructor(private var delegate: ServiceFactoryDel
             if (bleDiagram != null) {
                 val jsonToPayload = bleDiagram.jsonToPayload(json)
                 if (jsonToPayload != null) {
-                    BLEDispatcher.get().send(hexCode, jsonToPayload)
+                    BLEDispatcher.get().sendWithCode(hexCode, jsonToPayload)
                 } else {
                     BleLog.e("executeDown", " failure,jsonToPayload is null")
                 }

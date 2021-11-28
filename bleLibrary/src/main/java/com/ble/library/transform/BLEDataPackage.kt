@@ -57,7 +57,7 @@ class BLEDataPackage {
         return ByteUtils.subBytes(header, 0, header.size)
     }
 
-    private fun calculateCRC16WithHeader(header: ByteArray?, payload: ByteArray?): ByteArray? {
+     fun calculateCRC16WithHeader(header: ByteArray?, payload: ByteArray?): ByteArray? {
         val diagramData = ByteUtils.byteMerger(header, payload)
         Log.e("fuck", "diagramData:$diagramData")
 
