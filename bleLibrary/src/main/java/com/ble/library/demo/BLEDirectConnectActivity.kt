@@ -1,5 +1,6 @@
 package com.ble.library.demo
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
@@ -10,11 +11,14 @@ import cn.com.heaton.blelibrary.ble.model.BleDevice
 import cn.com.heaton.blelibrary.ble.utils.ByteUtils
 import com.ble.library.R
 import com.ble.library.service.CMD_LOGIN
+import com.ble.library.service.ServiceFactory
 import com.ble.library.service.ext.showToast
 import com.ble.library.service.feature.StartLogin
 import com.ble.library.service.feature.StartLoginData
 import com.ble.library.transform.BLEConnection
 import com.ble.library.transform.BLEDispatcher
+import com.tbruyelle.rxpermissions2.Permission
+import com.tbruyelle.rxpermissions2.RxPermissions
 
 /**
  * 蓝牙连接指定设备通讯
@@ -44,6 +48,19 @@ class BLEDirectConnectActivity : AppCompatActivity() {
 
         tvNotifyEnable = findViewById(R.id.tvNotifyEnable)
         mEdtSimulated = findViewById(R.id.mEdtSimulated)
+
+        // 申请蓝牙权限
+        val rxPermissions = RxPermissions(this)
+        rxPermissions
+            .requestEachCombined(
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            .subscribe { permission: Permission ->
+                if (permission.granted) {
+
+                }
+            }
     }
 
     fun viewBleSimulated(view: View) {
@@ -219,6 +236,7 @@ class BLEDirectConnectActivity : AppCompatActivity() {
 
         startLogin.jsonToPayload(StartLoginData(CMD_LOGIN, "123456"))
             ?.let { BLEDispatcher.get().send(CMD_LOGIN, it) }
+
     }
 
     /**
