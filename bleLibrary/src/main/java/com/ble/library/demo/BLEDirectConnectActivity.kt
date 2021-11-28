@@ -10,11 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import cn.com.heaton.blelibrary.ble.model.BleDevice
 import cn.com.heaton.blelibrary.ble.utils.ByteUtils
 import com.ble.library.R
+import com.ble.library.service.CMD_END_CHARGE
 import com.ble.library.service.CMD_LOGIN
 import com.ble.library.service.ServiceFactory
 import com.ble.library.service.ext.showToast
 import com.ble.library.service.feature.StartLogin
 import com.ble.library.service.feature.StartLoginData
+import com.ble.library.service.feature.StopChargeData
 import com.ble.library.transform.BLEConnection
 import com.ble.library.transform.BLEDispatcher
 import com.tbruyelle.rxpermissions2.Permission
@@ -257,6 +259,7 @@ class BLEDirectConnectActivity : AppCompatActivity() {
             showToast("设备未连接!!!")
             return
         }
+        ServiceFactory.get().executeDown(StopChargeData(CMD_END_CHARGE))
     }
 
     /**
