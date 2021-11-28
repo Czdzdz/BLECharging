@@ -8,12 +8,7 @@ import com.ble.library.service.DataMaker
 /**
  * 登录
  */
-class StartLoginData(override var hexCode: Byte, var ble_key: String) : BLEDiagramJson {
-
-    init {
-        hexCode = CMD_LOGIN
-    }
-}
+class StartLoginData(override var hexCode: Byte = CMD_LOGIN, var ble_key: String) : BLEDiagramJson
 
 class StartLogin(override var hexCode: Byte = CMD_LOGIN) : BLEDiagram {
     override fun jsonToPayload(json: BLEDiagramJson): ByteArray? {
