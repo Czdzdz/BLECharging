@@ -25,22 +25,24 @@ class StopCharge(override var hexCode: Byte) : BLEDiagram {
             null
         } else {
             var orderNum = json.orderId
-            var payload_bytes = IntArray(8)
             Log.e("fuck", "orderNum:$orderNum")
+
+            val payloadBytes = ByteArray(6)
             var p = 0
-            var i = 11
-            while (i > 0) {
-                val a = orderNum.substring(i, i + 1).toByte()
-                val b = orderNum.substring(i - 1, i).toByte()
-                Log.e("fuck", "a=$a,b=$b,运算:${(b * 16 + a)}")
-                payload_bytes[p] = b * 16 + a
-                p++
-                i -= 2
+                var i = 11
+                while (i > 0) {
+                    val a = orderNum.substring(i, i + 1).toInt()
+                    val b = orderNum.substring(i - 1, i).toInt()
+                    Log.e("fuck", "a=$a,b=$b,运算:${(b * 16 + a)}")
+                    payloadBytes[p] = Integer.toHexString(b * 16 + a).toByte()
+                    p++
+                    i -= 2
+                }
+
+            for (i in payloadBytes.indices) {
+                Log.e("fuck", "数组的值:" + payloadBytes[i])
             }
-            for (i in payload_bytes.indices) {
-                Log.e("fuck", "数组的值:" + payload_bytes[i])
-            }
-            val data = ByteArray(payload_bytes.size) { payload_bytes[it].toByte() }
+            val data = ByteArray(payloadBytes.size) { payloadBytes[it] }
             data
 //            val maker = DataMaker()
 //            maker.append(json.orderId, 6)
