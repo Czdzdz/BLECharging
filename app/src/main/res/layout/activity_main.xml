@@ -19,4 +19,16 @@
         android:textColor="@color/white"
         tools:ignore="UsingOnClickInXml" />
 
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_button"
+        android:gravity="center_horizontal"
+        android:onClick="viewJumpBle"
+        android:padding="15dp"
+        android:text="跳转BleActivity"
+        android:textColor="@color/white"
+        tools:ignore="UsingOnClickInXml" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>

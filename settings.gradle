@@ -1,2 +1,2 @@
 rootProject.name = "BLECharging"
-include ':app', ':bleLibrary'
+include ':app', ':bleLibrary',':core'

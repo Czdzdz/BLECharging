@@ -54,7 +54,7 @@ class BLEDirectConnectActivity : AppCompatActivity() {
         val rxPermissions = RxPermissions(this)
         rxPermissions
             .requestEachCombined(
-                Manifest.permission.BLUETOOTH,
+                Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
             .subscribe { permission: Permission ->
